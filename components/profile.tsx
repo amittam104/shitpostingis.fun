@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft } from "lucide-react";
-import { signOutFromGoogle } from "@/lib/actions";
+import { signOutFromApp } from "@/lib/actions";
 import { DefaultSession } from "next-auth";
 
 interface ProfileProps {
@@ -86,7 +86,7 @@ export function Profile({ user }: ProfileProps) {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                  <form action={signOutFromGoogle}>
+                  <form action={signOutFromApp}>
                     <Button type="submit">Sign Out</Button>
                   </form>
                 </div>
