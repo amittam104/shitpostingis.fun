@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { CircleUserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 async function layout({ children }: { children: React.ReactNode }) {
   const session = await auth();
+
+  if (!session?.user) redirect("/signin");
 
   return (
     <div>
