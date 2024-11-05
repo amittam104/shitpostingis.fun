@@ -8,8 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft } from "lucide-react";
+import { signOutFromGoogle } from "@/lib/actions";
+import { DefaultSession } from "next-auth";
 
-export function Profile() {
+interface ProfileProps {
+  user: DefaultSession["user"];
+}
+
+export function Profile({ user }: ProfileProps) {
   return (
     <div className=" bg-background">
       <main className="container mx-auto px-4 py-8">
@@ -26,14 +32,13 @@ export function Profile() {
           {/* Profile Header */}
           <div className="text-center">
             <Avatar className="w-24 h-24 mx-auto mb-4">
-              <AvatarImage
-                src="/placeholder.svg?height=96&width=96"
-                alt="Profile picture"
-              />
+              <AvatarImage src={user?.image || ""} alt="Profile picture" />
               <AvatarFallback>UN</AvatarFallback>
             </Avatar>
-            <h1 className="text-2xl font-bold">Your name</h1>
-            <p className="text-muted-foreground">username</p>
+            <h1 className="text-2xl font-bold">{user?.name || "username"}</h1>
+            <p className="text-muted-foreground">
+              {user?.name?.toLowerCase().split(" ").join("")}
+            </p>
           </div>
 
           {/* Update Profile and Credits Section */}
@@ -68,7 +73,7 @@ export function Profile() {
             <Card>
               <CardContent className="p-6">
                 <h2 className="font-semibold mb-4">Your Credits</h2>
-                <div className="space-y-4">
+                <div className="space-y-4 mb-8">
                   <div className="text-sm text-muted-foreground">
                     3/6 credits remaining
                   </div>
@@ -79,6 +84,11 @@ export function Profile() {
                     </p>
                     <Button variant="secondary">Keep Shit Posting</Button>
                   </div>
+                </div>
+                <div className="flex justify-end">
+                  <form action={signOutFromGoogle}>
+                    <Button type="submit">Sign Out</Button>
+                  </form>
                 </div>
               </CardContent>
             </Card>

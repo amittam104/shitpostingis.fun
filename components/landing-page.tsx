@@ -9,7 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Sparkles, Zap, Target, Rocket, ArrowRight } from "lucide-react";
+import { Sparkles, Zap, Target, Rocket } from "lucide-react";
 
 export function LandingPageComponent() {
   return (
@@ -37,12 +37,7 @@ export function LandingPageComponent() {
             >
               FAQ
             </Link>
-            <Link href="/signup">
-              <Button variant="outline" size="sm">
-                Sign up
-              </Button>
-            </Link>
-            <Link href="/dashboard">
+            <Link href="/signin">
               <Button size="sm">Start Shitposting</Button>
             </Link>
           </nav>
@@ -58,10 +53,9 @@ export function LandingPageComponent() {
           <p className="text-xl text-muted-foreground mb-8">
             Unleash your creativity with AI-powered meme generation
           </p>
-          <Button size="lg">
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <Link href="/signin">
+            <Button size="sm">Start Shitposting</Button>
+          </Link>
         </div>
       </section>
 

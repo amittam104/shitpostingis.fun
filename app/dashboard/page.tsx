@@ -1,6 +1,6 @@
 import { Dashboard } from "@/components/dashboard";
 
-function page() {
+async function page() {
   return <Dashboard />;
 }
 
