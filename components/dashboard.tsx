@@ -12,8 +12,15 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Heart, MessageCircle, Repeat2, Share2, Sparkles } from "lucide-react";
+import { useCompletion } from "ai/react";
 
 export function Dashboard() {
+  const { completion, input, handleInputChange, handleSubmit } = useCompletion({
+    api: "/api/completion",
+  });
+
+  console.log(completion);
+
   return (
     <div className=" bg-background">
       {/* Header */}
@@ -24,20 +31,24 @@ export function Dashboard() {
           {/* Left Column */}
           <div className="md:col-span-3">
             <div className="space-y-4">
-              <Card>
-                <CardContent className="p-4">
-                  <Textarea
-                    placeholder="Enter your text here..."
-                    className="min-h-[200px] resize-none"
-                  />
-                </CardContent>
-                <CardFooter>
-                  <Button className="w-full" variant="outline">
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    AI - Shitpost it
-                  </Button>
-                </CardFooter>
-              </Card>
+              <form onSubmit={handleSubmit}>
+                <Card>
+                  <CardContent className="p-4">
+                    <Textarea
+                      placeholder="Enter your text here..."
+                      className="min-h-[200px] resize-none"
+                      value={input}
+                      onChange={handleInputChange}
+                    />
+                  </CardContent>
+                  <CardFooter>
+                    <Button type="submit" className="w-full" variant="outline">
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      AI - Shitpost it
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </form>
 
               <Card>
                 <CardHeader>
@@ -68,6 +79,8 @@ export function Dashboard() {
                 <Textarea
                   placeholder="Enter your text or paste a link here..."
                   className="min-h-[200px] resize-none"
+                  value={completion}
+                  readOnly
                 />
               </CardContent>
               <CardFooter className="justify-end">
