@@ -1,15 +1,20 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface User extends Document {
+  fullName: string;
   email: string;
-  xUsername: string;
-  credits: Schema.Types.ObjectId;
+  xUsername?: string;
+  credits?: Schema.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const userSchema = new Schema<User>(
   {
+    fullName: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -21,8 +26,7 @@ const userSchema = new Schema<User>(
     },
     xUsername: {
       type: String,
-      required: true,
-      unique: true,
+      default: "https://x.com/",
     },
     credits: {
       type: Schema.Types.ObjectId,
@@ -32,5 +36,5 @@ const userSchema = new Schema<User>(
   { timestamps: true }
 );
 
-export const User =
-  mongoose.models.User || mongoose.model<User>("User", userSchema);
+const User = mongoose.models?.User || mongoose.model<User>("User", userSchema);
+export { User };

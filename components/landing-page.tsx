@@ -37,7 +37,7 @@ export function LandingPageComponent() {
             >
               FAQ
             </Link>
-            <Link href="/signin">
+            <Link href="/dashboard">
               <Button size="sm">Start Shitposting</Button>
             </Link>
           </nav>
@@ -53,7 +53,7 @@ export function LandingPageComponent() {
           <p className="text-xl text-muted-foreground mb-8">
             Unleash your creativity with AI-powered meme generation
           </p>
-          <Link href="/signin">
+          <Link href="/dashboard">
             <Button size="sm">Start Shitposting</Button>
           </Link>
         </div>

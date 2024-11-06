@@ -33,4 +33,4 @@ const creditsSchema = new Schema<Credits>(
 );
 
 export const Credits =
-  mongoose.models.Credits || mongoose.model<Credits>("Credits", creditsSchema);
+  mongoose.models?.Credits || mongoose.model<Credits>("Credits", creditsSchema);

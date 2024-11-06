@@ -16,11 +16,3 @@ export async function signInWithGoogle() {
 export async function signOutFromApp() {
   await signOut();
 }
-
-// Sign in with Twitter
-export async function signInWithTwitter() {
-  const session = await auth();
-
-  if (session?.user) redirect("/dashboard");
-  await signIn("twitter", { redirectTo: "/dashboard" });
-}

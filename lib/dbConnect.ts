@@ -1,33 +1,42 @@
-import mongoose, { MongooseError } from "mongoose";
+import mongoose from "mongoose";
 
-export interface dbConnection {
-  isConnected?: number;
+declare global {
+  const mongoose: { conn: any; promise: any } | undefined;
 }
 
-const connection: dbConnection = {};
+const MONGODB_URI = process.env.MONGODB_URI!;
 
-async function dbConnect(): Promise<void> {
-  const mongodbURI = process.env.MONGODB_URI;
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable");
+}
 
-  if (!mongodbURI) throw new Error("MONGODB_URI is not defined");
+let cached = global.mongoose;
 
-  if (connection.isConnected) {
-    console.log("Already connected to database");
-    return;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts);
   }
 
   try {
-    const db = await mongoose.connect(mongodbURI);
-
-    connection.isConnected = db.connections[0].readyState;
-  } catch (error: unknown) {
-    if (error instanceof MongooseError) {
-      console.log("Database connection failed", error.message);
-    } else {
-      console.log("Database connection failed", error);
-    }
-    process.exit(1);
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
   }
+
+  return cached.conn;
 }
 
 export default dbConnect;
