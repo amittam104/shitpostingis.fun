@@ -13,13 +13,16 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Heart, MessageCircle, Repeat2, Share2, Sparkles } from "lucide-react";
 import { useCompletion } from "ai/react";
+import Image from "next/image";
 
-export function Dashboard() {
+export function Dashboard({
+  gifs,
+}: {
+  gifs: Array<{ url: string; width: number; height: number }>;
+}) {
   const { completion, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/api/completion",
   });
-
-  console.log(completion);
 
   return (
     <div className=" bg-background">
@@ -90,14 +93,29 @@ export function Dashboard() {
             <Card>
               <CardContent className="p-4">
                 <div className="grid grid-cols-2 md:grid-cols-3 justify-center gap-3">
-                  {[...Array(6)].map((_, index) => (
+                  {/* {[...Array(6)].map((_, index) => (
                     <div
                       key={index}
                       className="h-36 w-36 md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
                     >
-                      {/* <Image className="h-8 w-8 text-muted-foreground" /> */}
                     </div>
-                  ))}
+                  ))} */}
+                  {gifs?.map((gif) => {
+                    return (
+                      <div
+                        key={gif.url}
+                        className="h-36 w-36 relative md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
+                      >
+                        <Image
+                          src={gif.url}
+                          alt="gif"
+                          unoptimized
+                          fill
+                          className="object-cover p-2"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>

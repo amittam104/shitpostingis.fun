@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 
 declare global {
-  const mongoose: { conn: any; promise: any } | undefined;
+  const mongoose: { conn: unknown; promise: unknown } | undefined;
 }
 
 const MONGODB_URI = process.env.MONGODB_URI!;
@@ -10,10 +11,10 @@ if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable");
 }
 
-let cached = global.mongoose;
+let cached = (global as any).mongoose;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = (global as any).mongoose = { conn: null, promise: null };
 }
 
 async function dbConnect() {
