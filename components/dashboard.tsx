@@ -24,12 +24,7 @@ type User = {
   image: string | undefined;
 };
 
-export function Dashboard({
-  user,
-}: {
-  // gifs: Array<{ url: string; width: number; height: number }>;
-  user: User;
-}) {
+export function Dashboard({ user }: { user: User }) {
   const { completion, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/api/completion",
   });
@@ -37,6 +32,13 @@ export function Dashboard({
   const [gifs, setGifs] = useState<
     Array<{ url: string; width: number; height: number }>
   >([]);
+  const [selectedGif, setSelectedGif] = useState<{
+    url: string;
+    width: number;
+    height: number;
+  } | null>(null);
+
+  console.log(selectedGif);
 
   useEffect(() => {
     setTweet(completion);
@@ -124,8 +126,9 @@ export function Dashboard({
                 <div className="grid grid-cols-2 md:grid-cols-3 justify-center gap-3">
                   {gifs?.map((gif) => {
                     return (
-                      <div
+                      <button
                         key={gif.url}
+                        onClick={() => setSelectedGif(gif)}
                         className="h-36 w-36 relative md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
                       >
                         <Image
@@ -135,7 +138,7 @@ export function Dashboard({
                           fill
                           className="object-cover p-2"
                         />
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -160,14 +163,25 @@ export function Dashboard({
               </CardHeader>
               <CardContent className="pb-2">
                 <Textarea
-                  placeholder="Your tweet content will appear here. It's a preview of
-                  how your post will look on Twitter."
+                  placeholder="Your tweet content will appear here..."
                   value={tweet}
                   onChange={(e) => setTweet(e.target.value)}
                   className="h-32 resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-4 text-sm"
                 />
-                <div className="aspect-video rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center mb-2">
-                  <span className="text-muted-foreground">Image/GIF</span>
+                <div className="aspect-video relative flex items-center justify-center mb-2">
+                  {selectedGif ? (
+                    <Image
+                      src={selectedGif.url}
+                      alt="Selected gif"
+                      unoptimized
+                      fill
+                      className="object-cover "
+                    />
+                  ) : (
+                    <span className="text-muted-foreground">
+                      No GIF selected
+                    </span>
+                  )}
                 </div>
               </CardContent>
             </Card>
