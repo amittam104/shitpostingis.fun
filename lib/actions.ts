@@ -16,3 +16,27 @@ export async function signInWithGoogle() {
 export async function signOutFromApp() {
   await signOut();
 }
+
+export async function generateGifsBySearch(query: string) {
+  try {
+    const url = `https://api.apileague.com/search-gifs?query=${query.replace(
+      " ",
+      "%20"
+    )}&number=6`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "x-api-key": process.env.MEME_API_KEY || "",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch gifs.");
+
+    const data = await response.json();
+    const gifs = data.images;
+
+    return gifs;
+  } catch (error) {
+    console.log("Something went wrong in getting the gifs.", error);
+  }
+}

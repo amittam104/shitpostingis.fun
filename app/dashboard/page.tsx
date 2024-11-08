@@ -1,21 +1,17 @@
+import { auth } from "@/auth";
 import { Dashboard } from "@/components/dashboard";
 
 async function page() {
-  const url =
-    "https://api.apileague.com/search-gifs?query=american%20psycho&number=6";
+  const session = await auth();
 
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      "x-api-key": process.env.MEME_API_KEY || "",
-    },
-  });
+  const user = {
+    ...session?.user,
+    name: session?.user?.name ?? "",
+    email: session?.user?.email ?? undefined,
+    image: session?.user?.image ?? undefined,
+  };
 
-  const data = await response.json();
-
-  const gifs = data.images;
-
-  return <Dashboard gifs={gifs} />;
+  return <Dashboard user={user} />;
 }
 
 export default page;

@@ -14,15 +14,33 @@ import { Textarea } from "@/components/ui/textarea";
 import { Heart, MessageCircle, Repeat2, Share2, Sparkles } from "lucide-react";
 import { useCompletion } from "ai/react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { generateGifsBySearch } from "@/lib/actions";
+import { Input } from "./ui/input";
+
+type User = {
+  name: string | undefined;
+  email: string | undefined;
+  image: string | undefined;
+};
 
 export function Dashboard({
-  gifs,
+  user,
 }: {
-  gifs: Array<{ url: string; width: number; height: number }>;
+  // gifs: Array<{ url: string; width: number; height: number }>;
+  user: User;
 }) {
   const { completion, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/api/completion",
   });
+  const [tweet, setTweet] = useState("");
+  const [gifs, setGifs] = useState<
+    Array<{ url: string; width: number; height: number }>
+  >([]);
+
+  useEffect(() => {
+    setTweet(completion);
+  }, [completion]);
 
   return (
     <div className=" bg-background">
@@ -83,23 +101,27 @@ export function Dashboard({
                   placeholder="Enter your text or paste a link here..."
                   className="min-h-[200px] resize-none"
                   value={completion}
-                  readOnly
                 />
               </CardContent>
-              <CardFooter className="justify-end">
-                <Button variant="outline">Find meme/gif</Button>
+              <CardFooter className="flex justify-between gap-2">
+                <form
+                  action={async (formData) => {
+                    const gifs = await generateGifsBySearch(
+                      formData.get("query") as string
+                    );
+                    if (gifs) setGifs(gifs);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <Input type="text" name="query" />
+                  <Button variant="outline">Search gif</Button>
+                </form>
+                <Button>AI find gif</Button>
               </CardFooter>
             </Card>
             <Card>
               <CardContent className="p-4">
                 <div className="grid grid-cols-2 md:grid-cols-3 justify-center gap-3">
-                  {/* {[...Array(6)].map((_, index) => (
-                    <div
-                      key={index}
-                      className="h-36 w-36 md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
-                    >
-                    </div>
-                  ))} */}
                   {gifs?.map((gif) => {
                     return (
                       <div
@@ -127,23 +149,23 @@ export function Dashboard({
               <CardHeader className="pb-2">
                 <div className="flex items-center space-x-4">
                   <Avatar>
-                    <AvatarImage
-                      src="/placeholder-avatar.jpg"
-                      alt="@username"
-                    />
+                    <AvatarImage src={user?.image} alt={user?.name} />
                     <AvatarFallback>UN</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold">Display Name</p>
+                    <p className="font-semibold">{user?.name}</p>
                     <p className="text-sm text-muted-foreground">@username</p>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="pb-2">
-                <p className="mb-2">
-                  Your tweet content will appear here. It&apos;s a preview of
-                  how your post will look on Twitter.
-                </p>
+                <Textarea
+                  placeholder="Your tweet content will appear here. It's a preview of
+                  how your post will look on Twitter."
+                  value={tweet}
+                  onChange={(e) => setTweet(e.target.value)}
+                  className="h-32 resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-4 text-sm"
+                />
                 <div className="aspect-video rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center mb-2">
                   <span className="text-muted-foreground">Image/GIF</span>
                 </div>
