@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, MessageCircle, Repeat2, Share2, Sparkles } from "lucide-react";
+import { generateGifsBySearch } from "@/lib/actions";
 import { useCompletion } from "ai/react";
+import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { generateGifsBySearch } from "@/lib/actions";
 import { Input } from "./ui/input";
 
 type User = {
@@ -170,24 +170,6 @@ export function Dashboard({
                   <span className="text-muted-foreground">Image/GIF</span>
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between pt-2">
-                <Button variant="ghost" size="icon">
-                  <MessageCircle className="h-4 w-4" />
-                  <span className="sr-only">Comment</span>
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Repeat2 className="h-4 w-4" />
-                  <span className="sr-only">Retweet</span>
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Heart className="h-4 w-4" />
-                  <span className="sr-only">Like</span>
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Share2 className="h-4 w-4" />
-                  <span className="sr-only">Share</span>
-                </Button>
-              </CardFooter>
             </Card>
             <div className="mt-4 flex justify-end">
               <Button>Post</Button>
