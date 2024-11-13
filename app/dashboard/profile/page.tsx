@@ -5,8 +5,6 @@ import { redirect } from "next/navigation";
 async function page() {
   const session = await auth();
 
-  console.log(session);
-
   if (!session?.user) redirect("/signin");
 
   return <Profile user={session.user} />;

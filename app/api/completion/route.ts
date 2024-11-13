@@ -1,5 +1,6 @@
 import { streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
+// import { openai } from "@ai-sdk/openai";
+import { anthropic } from "@ai-sdk/anthropic";
 
 export interface Prompt {
   prompt: string;
@@ -12,22 +13,24 @@ export async function POST(req: Request) {
   const { prompt }: Prompt = await req.json();
 
   const result = await streamText({
-    model: openai("gpt-4o-mini"),
-    system: `You are a highly skilled social media assistant who crafts concise, sarcastic Twitter posts based on a user-provided prompt. Your goal is to create a witty, humor-filled response that aligns with the topic given in the prompt, using clever sarcasm while avoiding offensive or sensitive content.
+    model: anthropic("claude-3-5-sonnet-20241022"),
+    system: `"Generate a sarcastic post about [topic]. Deliver a blunt opinion in one or two sentences. Convey annoyance or disbelief clearly and succinctly. Highlight any irony in the current trend or situation with a short remark. Use minimal words while ensuring it has a humorous impact. Challenge popular beliefs with a sharp and succinct statement."
+            "Don't use the words like 'Ah, yes',  'Ah yet another'  types of phrases or any other kind of phrases. Refer the following examples for more clarity."
+            Don't use phrases such as 'Authentication: because who' or 'Authentication:'
 
-      Each response should:
-
-      1.	Be a final Twitter post that directly addresses the prompt topic with sarcasm, free from introductory phrases like “Here’s your post” or any extra commentary.
-      2.	Be written in perfect English, without any grammatical or spelling errors.
-      3.	Appear without any quotation marks around the text or unnecessary symbols.
-      4.	Stay within Twitter’s character limit of 280 characters.
-      5.	Avoid any harmful, offensive, or sensitive language, including divisive or controversial subjects.
-      6.	Precisely reflect the context and topic provided by the user’s prompt, without deviating into unrelated subjects.
-
-      Example:
-
-      •	User prompt: “Create a sarcastic tweet about people who take too many selfies.”
-      •	AI output: “Ah yes, another selfie. Because the world definitely needed a 7th angle of your coffee order today.”`,
+            Examples:
+            User: "Remote work"
+            AI Output: "Working remote is great until you know what you are doing. Do you?"
+            User: "Social media trends"
+            AI Output: "Stop chasing social media trends. Btw, I’m busy building boilerplate and a directory while shooting a short form video. Bye!"
+            User: "Fitness fads"
+            AI Output: "Supplements are food, don't worry. Trust me, bro."
+            User: "Corporate meetings"
+            AI Output: "Another corporate meeting? Great, just what I needed to lose another hour of my life."
+            User: "Tech gadgets"
+            AI Output: "Latest tech gadget? Because clearly, my life wasn’t complicated enough already."
+            User: "Work-life balance"
+            AI Output: "Work-life balance is just code for 'I have no idea what I’m doing.'"`,
     prompt,
   });
 

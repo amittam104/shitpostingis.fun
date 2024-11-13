@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { generateGifsBySearch } from "@/lib/actions";
+import { getGifsBySearch } from "@/lib/actions";
 import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -30,15 +30,27 @@ export function Dashboard({ user }: { user: User }) {
   });
   const [tweet, setTweet] = useState("");
   const [gifs, setGifs] = useState<
-    Array<{ url: string; width: number; height: number }>
+    Array<{
+      media_formats: {
+        gif: {
+          url: string;
+        };
+      };
+      width: number;
+      height: number;
+    }>
   >([]);
   const [selectedGif, setSelectedGif] = useState<{
-    url: string;
+    media_formats: {
+      gif: {
+        url: string;
+      };
+    };
     width: number;
     height: number;
   } | null>(null);
 
-  console.log(selectedGif);
+  // console.log(selectedGif);
 
   useEffect(() => {
     setTweet(completion);
@@ -108,17 +120,18 @@ export function Dashboard({ user }: { user: User }) {
               <CardFooter className="flex justify-between gap-2">
                 <form
                   action={async (formData) => {
-                    const gifs = await generateGifsBySearch(
+                    const gifs = await getGifsBySearch(
                       formData.get("query") as string
                     );
                     if (gifs) setGifs(gifs);
+                    console.log(gifs);
                   }}
                   className="flex items-center gap-2"
                 >
                   <Input type="text" name="query" />
                   <Button variant="outline">Search gif</Button>
                 </form>
-                <Button>AI find gif</Button>
+                <Button>AI - find a gif</Button>
               </CardFooter>
             </Card>
             <Card>
@@ -127,12 +140,12 @@ export function Dashboard({ user }: { user: User }) {
                   {gifs?.map((gif) => {
                     return (
                       <button
-                        key={gif.url}
+                        key={gif.media_formats.gif.url}
                         onClick={() => setSelectedGif(gif)}
                         className="h-36 w-36 relative md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
                       >
                         <Image
-                          src={gif.url}
+                          src={gif.media_formats.gif.url}
                           alt="gif"
                           unoptimized
                           fill
@@ -166,16 +179,16 @@ export function Dashboard({ user }: { user: User }) {
                   placeholder="Your tweet content will appear here..."
                   value={tweet}
                   onChange={(e) => setTweet(e.target.value)}
-                  className="h-32 resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-4 text-sm"
+                  className="h-24 resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-4 text-sm"
                 />
-                <div className="aspect-video relative flex items-center justify-center mb-2">
+                <div className="relative flex items-center justify-center mb-2 aspect-square">
                   {selectedGif ? (
                     <Image
-                      src={selectedGif.url}
+                      src={selectedGif.media_formats.gif.url}
                       alt="Selected gif"
                       unoptimized
                       fill
-                      className="object-cover "
+                      className="object-cover rounded-lg"
                     />
                   ) : (
                     <span className="text-muted-foreground">

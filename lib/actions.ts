@@ -17,23 +17,15 @@ export async function signOutFromApp() {
   await signOut();
 }
 
-export async function generateGifsBySearch(query: string) {
+export async function getGifsBySearch(query: string) {
   try {
-    const url = `https://api.apileague.com/search-gifs?query=${query.replace(
-      " ",
-      "%20"
-    )}&number=6`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "x-api-key": process.env.MEME_API_KEY || "",
-      },
-    });
+    const url = `https://tenor.googleapis.com/v2/search?q=${query}&key=${process.env.TENOR_API}&limit=6`;
 
-    if (!response.ok) throw new Error("Failed to fetch gifs.");
+    const response = await fetch(url);
 
     const data = await response.json();
-    const gifs = data.images;
+    console.log(data.results[0].media_formats.gif.url);
+    const gifs = data.results;
 
     return gifs;
   } catch (error) {
