@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { getGifsBySearch } from "@/lib/actions";
+import { getGifsBySearch, getGifSearchQueryByAi } from "@/lib/actions";
 import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -49,8 +49,7 @@ export function Dashboard({ user }: { user: User }) {
     width: number;
     height: number;
   } | null>(null);
-
-  // console.log(selectedGif);
+  const [isGeneratingGif, setIsGeneratingGif] = useState(false);
 
   useEffect(() => {
     setTweet(completion);
@@ -124,14 +123,25 @@ export function Dashboard({ user }: { user: User }) {
                       formData.get("query") as string
                     );
                     if (gifs) setGifs(gifs);
-                    console.log(gifs);
                   }}
                   className="flex items-center gap-2"
                 >
                   <Input type="text" name="query" />
                   <Button variant="outline">Search gif</Button>
                 </form>
-                <Button>AI - find a gif</Button>
+                <Button
+                  onClick={async () => {
+                    setIsGeneratingGif(true);
+                    const querybyAI = await getGifSearchQueryByAi(completion);
+                    const gifs = await getGifsBySearch(querybyAI);
+                    if (gifs) {
+                      setIsGeneratingGif(false);
+                      setGifs(gifs);
+                    }
+                  }}
+                >
+                  {isGeneratingGif ? "Finding Gifs..." : "AI - Find a Gif"}
+                </Button>
               </CardFooter>
             </Card>
             <Card>
