@@ -280,7 +280,16 @@ export function Dashboard({ user }: { user: User }) {
               </CardContent>
             </Card>
             <div className="mt-4 flex justify-end">
-              <Button>Post</Button>
+              <Button
+                onClick={() =>
+                  window.open(
+                    `https://twitter.com/intent/tweet?text=${tweet}${selectedGif?.media_formats.gif.url}`,
+                    "_blank"
+                  )
+                }
+              >
+                Post on X (Twitter)
+              </Button>
             </div>
           </div>
         </div>
