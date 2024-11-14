@@ -13,10 +13,17 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { getGifsBySearch, getGifSearchQueryByAi } from "@/lib/actions";
 import { useCompletion } from "ai/react";
-import { Sparkles } from "lucide-react";
+import { Info, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
+import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type User = {
   name: string | undefined;
@@ -50,9 +57,11 @@ export function Dashboard({ user }: { user: User }) {
     height: number;
   } | null>(null);
   const [isGeneratingGif, setIsGeneratingGif] = useState(false);
+  const [isGeneratingShitPost, setIsGeneratingShitPost] = useState(false);
 
   useEffect(() => {
     setTweet(completion);
+    if (completion) setIsGeneratingShitPost(false);
   }, [completion]);
 
   return (
@@ -64,21 +73,39 @@ export function Dashboard({ user }: { user: User }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {/* Left Column */}
           <div className="md:col-span-3">
-            <div className="space-y-4">
-              <form onSubmit={handleSubmit}>
+            <div className="space-y-4 flex flex-col justify-between h-full">
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setIsGeneratingShitPost(true);
+                  handleSubmit();
+
+                  // if (completion) setIsGeneratingShitPost(false);
+                }}
+              >
                 <Card>
+                  <h2 className="px-4 pt-3 text-sm font-semibold">
+                    Write a post or any topic you want
+                  </h2>
                   <CardContent className="p-4">
-                    <Textarea
-                      placeholder="Enter your text here..."
-                      className="min-h-[200px] resize-none"
+                    <Input
+                      placeholder="Enter your post or topic here..."
+                      className="resize-none"
                       value={input}
                       onChange={handleInputChange}
                     />
                   </CardContent>
                   <CardFooter>
-                    <Button type="submit" className="w-full" variant="outline">
+                    <Button
+                      disabled={!input}
+                      type="submit"
+                      className="w-full disabled:bg-slate-300"
+                      variant="default"
+                    >
                       <Sparkles className="mr-2 h-4 w-4" />
-                      AI - Shitpost it
+                      {isGeneratingShitPost
+                        ? "Generating..."
+                        : `AI - Shitpost it`}
                     </Button>
                   </CardFooter>
                 </Card>
@@ -86,7 +113,7 @@ export function Dashboard({ user }: { user: User }) {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium">
+                  <CardTitle className="text-sm font-semibold">
                     Your Credits
                   </CardTitle>
                 </CardHeader>
@@ -119,17 +146,28 @@ export function Dashboard({ user }: { user: User }) {
               <CardFooter className="flex justify-between gap-2">
                 <form
                   action={async (formData) => {
+                    setIsGeneratingGif(true);
                     const gifs = await getGifsBySearch(
                       formData.get("query") as string
                     );
                     if (gifs) setGifs(gifs);
+                    setIsGeneratingGif(false);
                   }}
                   className="flex items-center gap-2"
                 >
-                  <Input type="text" name="query" />
-                  <Button variant="outline">Search gif</Button>
+                  <Input
+                    disabled={isGeneratingGif}
+                    autoComplete="off"
+                    type="text"
+                    name="query"
+                  />
+                  <Button disabled={isGeneratingGif} variant="outline">
+                    {isGeneratingGif ? "Finding Gifs..." : `Search gif`}
+                  </Button>
                 </form>
                 <Button
+                  disabled={completion === "" || isGeneratingGif}
+                  className="disabled:bg-slate-300"
                   onClick={async () => {
                     setIsGeneratingGif(true);
                     const querybyAI = await getGifSearchQueryByAi(completion);
@@ -147,23 +185,34 @@ export function Dashboard({ user }: { user: User }) {
             <Card>
               <CardContent className="p-4">
                 <div className="grid grid-cols-2 md:grid-cols-3 justify-center gap-3">
-                  {gifs?.map((gif) => {
-                    return (
-                      <button
-                        key={gif.media_formats.gif.url}
-                        onClick={() => setSelectedGif(gif)}
-                        className="h-36 w-36 relative md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
-                      >
-                        <Image
-                          src={gif.media_formats.gif.url}
-                          alt="gif"
-                          unoptimized
-                          fill
-                          className="object-cover p-2"
-                        />
-                      </button>
-                    );
-                  })}
+                  {gifs.length > 0
+                    ? gifs.map((gif) => {
+                        return (
+                          <button
+                            key={gif.media_formats.gif.url}
+                            onClick={() => setSelectedGif(gif)}
+                            className="h-36 w-36 relative md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
+                          >
+                            <Image
+                              src={gif.media_formats.gif.url}
+                              alt="gif"
+                              unoptimized
+                              fill
+                              className="object-cover rounded-lg overflow-hidden "
+                            />
+                          </button>
+                        );
+                      })
+                    : Array.from({ length: 6 }).map((_, i) => {
+                        return (
+                          <button
+                            key={i}
+                            className="h-36 w-36 relative md:h-40 md:w-40 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
+                          >
+                            {isGeneratingGif ? "Finding Gifs..." : "No gif"}
+                          </button>
+                        );
+                      })}
                 </div>
               </CardContent>
             </Card>
@@ -184,14 +233,36 @@ export function Dashboard({ user }: { user: User }) {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="pb-2">
-                <Textarea
+              <CardContent className="pb-2 ">
+                {/* <Textarea
                   placeholder="Your tweet content will appear here..."
                   value={tweet}
                   onChange={(e) => setTweet(e.target.value)}
-                  className="h-24 resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-4 text-sm"
-                />
-                <div className="relative flex items-center justify-center mb-2 aspect-square">
+                  className="h-auto resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-2 text-sm"
+                /> */}
+
+                <div
+                  contentEditable="true"
+                  className="mb-4 relative ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0"
+                >
+                  {tweet}
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger className="absolute -top-3 -right-3">
+                        <Info className="size-4 text-neutral-400 cursor-pointer" />
+                      </TooltipTrigger>
+                      <TooltipContent className="text-sm top-3 right-3 text-neutral-400">
+                        <p>You can edit this post here.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div
+                  className={cn(
+                    `relative flex items-center justify-center mb-2 aspect-square border border-dashed border-muted-foreground/25 rounded-lg`,
+                    selectedGif && "border-none"
+                  )}
+                >
                   {selectedGif ? (
                     <Image
                       src={selectedGif.media_formats.gif.url}
