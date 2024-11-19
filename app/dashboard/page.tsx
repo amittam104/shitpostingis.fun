@@ -1,8 +1,11 @@
 import { auth } from "@/auth";
 import { Dashboard } from "@/components/dashboard";
+import { getUser } from "@/lib/services";
 
 async function page() {
   const session = await auth();
+
+  const [currentUser] = await getUser();
 
   const user = {
     ...session?.user,
@@ -11,7 +14,7 @@ async function page() {
     image: session?.user?.image ?? undefined,
   };
 
-  return <Dashboard user={user} />;
+  return <Dashboard user={user} currentUser={currentUser} />;
 }
 
 export default page;

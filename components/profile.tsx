@@ -9,13 +9,30 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft } from "lucide-react";
 import { signOutFromApp } from "@/lib/actions";
-import { DefaultSession } from "next-auth";
 
-interface ProfileProps {
-  user: DefaultSession["user"];
-}
+type User = {
+  name: string | undefined;
+  email: string | undefined;
+  image: string | undefined;
+};
 
-export function Profile({ user }: ProfileProps) {
+type currentUser = {
+  name: string | undefined;
+  email: string | undefined;
+  credits: number | undefined;
+};
+
+export function Profile({
+  user,
+  currentUser,
+}: {
+  user: User;
+  currentUser: currentUser;
+}) {
+  const creditsPercentage = currentUser?.credits
+    ? (currentUser.credits / 10) * 100
+    : 0;
+
   return (
     <div className=" bg-background">
       <main className="container mx-auto px-4 py-8">
@@ -75,9 +92,9 @@ export function Profile({ user }: ProfileProps) {
                 <h2 className="font-semibold mb-4">Your Credits</h2>
                 <div className="space-y-4 mb-8">
                   <div className="text-sm text-muted-foreground">
-                    3/6 credits remaining
+                    {currentUser.credits}/10 credits remaining
                   </div>
-                  <Progress value={50} className="h-2" />
+                  <Progress value={creditsPercentage} className="h-2" />
                   <div className="flex flex-col space-y-2">
                     <p className="text-sm text-muted-foreground">
                       Get more credits to keep shitposting

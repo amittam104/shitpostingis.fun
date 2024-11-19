@@ -18,6 +18,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
+
 // import {
 //   Tooltip,
 //   TooltipContent,
@@ -31,7 +32,19 @@ type User = {
   image: string | undefined;
 };
 
-export function Dashboard({ user }: { user: User }) {
+type currentUser = {
+  name: string | undefined;
+  email: string | undefined;
+  credits: number | undefined;
+};
+
+export function Dashboard({
+  user,
+  currentUser,
+}: {
+  user: User;
+  currentUser: currentUser;
+}) {
   const { completion, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/api/completion",
   });
@@ -63,6 +76,10 @@ export function Dashboard({ user }: { user: User }) {
     setTweet(completion);
     if (completion) setIsGeneratingShitPost(false);
   }, [completion]);
+
+  const creditsPercentage = currentUser?.credits
+    ? (currentUser.credits / 10) * 100
+    : 0;
 
   return (
     <div className=" bg-background">
@@ -119,9 +136,9 @@ export function Dashboard({ user }: { user: User }) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="text-sm text-muted-foreground">
-                    3/6 credits remaining
+                    {currentUser.credits}/10 credits remaining
                   </div>
-                  <Progress value={50} className="h-2" />
+                  <Progress value={creditsPercentage} className="h-2" />
                   <p className="text-sm text-muted-foreground">
                     Get more credits to keep shitposting
                   </p>
