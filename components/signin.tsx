@@ -2,9 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { signInWithGoogle } from "@/lib/actions";
+import { signInWithGoogle, signInWithX } from "@/lib/actions";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { XLogo } from "@phosphor-icons/react";
 
 export function Signin() {
   return (
@@ -45,6 +46,12 @@ export function Signin() {
                   />
                 </svg>
                 Sign in with Google
+              </Button>
+            </form>
+            <form action={signInWithX}>
+              <Button className="w-full" variant="outline">
+                <XLogo size={32} />
+                Sign in with X
               </Button>
             </form>
           </CardContent>

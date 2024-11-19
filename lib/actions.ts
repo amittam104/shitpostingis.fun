@@ -14,7 +14,16 @@ export async function signInWithGoogle() {
   await signIn("google", { redirectTo: "/dashboard" });
 }
 
-// Sign out user from Google
+// Sign in with Google server action
+export async function signInWithX() {
+  const session = await auth();
+
+  if (session?.user) redirect("/dashboard");
+
+  await signIn("twitter", { redirectTo: "/dashboard" });
+}
+
+// Sign out user
 export async function signOutFromApp() {
   await signOut();
 }

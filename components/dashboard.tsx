@@ -13,17 +13,17 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { getGifsBySearch, getGifSearchQueryByAi } from "@/lib/actions";
 import { useCompletion } from "ai/react";
-import { Info, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+// import {
+//   Tooltip,
+//   TooltipContent,
+//   TooltipProvider,
+//   TooltipTrigger,
+// } from "@/components/ui/tooltip";
 
 type User = {
   name: string | undefined;
@@ -141,6 +141,7 @@ export function Dashboard({ user }: { user: User }) {
                   placeholder="Enter your text or paste a link here..."
                   className="min-h-[200px] resize-none"
                   value={completion}
+                  readOnly
                 />
               </CardContent>
               <CardFooter className="flex justify-between gap-2">
@@ -234,14 +235,14 @@ export function Dashboard({ user }: { user: User }) {
                 </div>
               </CardHeader>
               <CardContent className="pb-2 ">
-                {/* <Textarea
+                <Textarea
                   placeholder="Your tweet content will appear here..."
                   value={tweet}
                   onChange={(e) => setTweet(e.target.value)}
                   className="h-auto resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-2 text-sm"
-                /> */}
+                />
 
-                <div
+                {/* <div
                   contentEditable="true"
                   className="mb-4 relative ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0"
                 >
@@ -256,7 +257,7 @@ export function Dashboard({ user }: { user: User }) {
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                </div>
+                </div> */}
                 <div
                   className={cn(
                     `relative flex items-center justify-center mb-2 aspect-square border border-dashed border-muted-foreground/25 rounded-lg`,
@@ -283,7 +284,7 @@ export function Dashboard({ user }: { user: User }) {
               <Button
                 onClick={() =>
                   window.open(
-                    `https://twitter.com/intent/tweet?text=${tweet}${selectedGif?.media_formats.gif.url}`,
+                    `https://twitter.com/intent/tweet?text=${tweet}`,
                     "_blank"
                   )
                 }
