@@ -1,15 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Sparkles, Zap, Target, Rocket } from "lucide-react";
+import Link from "next/link";
 
 export function LandingPageComponent() {
   return (
@@ -17,26 +9,8 @@ export function LandingPageComponent() {
       {/* Header */}
       <header className="border-b">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Shitpostingis.fun</h1>
+          <h1 className="text-2xl font-semibold">Shitpostingisfun</h1>
           <nav className="flex items-center space-x-4">
-            <Link
-              href="#features"
-              className="text-sm font-medium hover:text-primary"
-            >
-              Features
-            </Link>
-            <Link
-              href="#how-it-works"
-              className="text-sm font-medium hover:text-primary"
-            >
-              How it Works
-            </Link>
-            <Link
-              href="#faq"
-              className="text-sm font-medium hover:text-primary"
-            >
-              FAQ
-            </Link>
             <Link href="/dashboard">
               <Button size="sm">Start Shitposting</Button>
             </Link>
@@ -45,13 +19,13 @@ export function LandingPageComponent() {
       </header>
 
       {/* Hero */}
-      <section className="py-20 text-center">
+      <section className="h-dvh flex items-center text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-5xl font-bold mb-4">
             Elevate Your Shitposting Game
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Unleash your creativity with AI-powered meme generation
+          <p className="text-base text-muted-foreground mb-8">
+            Unleash your creativity with AI-powered shit posts generation
           </p>
           <Link href="/dashboard">
             <Button size="sm">Start Shitposting</Button>
@@ -60,7 +34,7 @@ export function LandingPageComponent() {
       </section>
 
       {/* Features */}
-      <section id="features" className="py-20 bg-muted/50">
+      {/* <section id="features" className="py-20 bg-muted/50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -93,10 +67,10 @@ export function LandingPageComponent() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Benefits */}
-      <section className="py-20">
+      {/* <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Benefits</h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -129,10 +103,10 @@ export function LandingPageComponent() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* How it Works */}
-      <section id="how-it-works" className="py-20 bg-muted/50">
+      {/* <section id="how-it-works" className="py-20 bg-muted/50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">How it Works</h2>
           <div className="max-w-3xl mx-auto">
@@ -159,10 +133,10 @@ export function LandingPageComponent() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ */}
-      <section id="faq" className="py-20">
+      {/* <section id="faq" className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
             Frequently Asked Questions
@@ -200,16 +174,16 @@ export function LandingPageComponent() {
             </AccordionItem>
           </Accordion>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="border-t py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h2 className="text-xl font-semibold">Shitpostingis.fun</h2>
+              <h2 className="text-xl font-semibold">Shitpostingisfun</h2>
               <p className="text-sm text-muted-foreground">
-                Elevate your meme game with AI
+                Elevate your shitposting game with AI
               </p>
             </div>
             <nav className="flex space-x-4">
@@ -234,7 +208,7 @@ export function LandingPageComponent() {
             </nav>
           </div>
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Shitpostingis.fun. All rights reserved.
+            © {new Date().getFullYear()} Shitpostingisfun. All rights reserved.
           </div>
         </div>
       </footer>

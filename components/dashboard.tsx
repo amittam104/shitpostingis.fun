@@ -17,6 +17,7 @@ import { Sparkles } from "lucide-react";
 // import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
+import { updateCredits } from "@/lib/actions";
 // import { cn } from "@/lib/utils";
 
 // import {
@@ -86,18 +87,17 @@ export function Dashboard({
       {/* Header */}
 
       {/* Main Content */}
-      <div className=" mx-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className=" mx-auto mt-8 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Left Column */}
-          <div className="md:col-span-3">
-            <div className="space-y-4 flex flex-col justify-between h-full">
+          <div className="md:col-start-3 md:col-span-4">
+            <div className="space-y-4 flex flex-col justify-start mb-8">
               <form
                 onSubmit={async (e) => {
                   e.preventDefault();
                   setIsGeneratingShitPost(true);
                   handleSubmit();
-
-                  // if (completion) setIsGeneratingShitPost(false);
+                  updateCredits();
                 }}
               >
                 <Card>
@@ -127,42 +127,20 @@ export function Dashboard({
                   </CardFooter>
                 </Card>
               </form>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm font-semibold">
-                    Your Credits
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-sm text-muted-foreground">
-                    {currentUser.credits}/10 credits remaining
-                  </div>
-                  <Progress value={creditsPercentage} className="h-2" />
-                  <p className="text-sm text-muted-foreground">
-                    Get more credits to keep shitposting
-                  </p>
-                  {/* <Button className="w-full" variant="secondary">
-                    Keep Shit Posting
-                  </Button> */}
-                </CardContent>
-              </Card>
             </div>
-          </div>
 
-          {/* Middle Column */}
-          <div className="md:col-span-5 space-y-4">
-            <Card>
-              <CardContent className="p-4">
-                <Textarea
-                  placeholder="Enter your text or paste a link here..."
-                  className="min-h-[200px] resize-none"
-                  value={completion}
-                  readOnly
-                />
-              </CardContent>
-              <CardFooter className="flex justify-between gap-2">
-                {/* <form
+            <div>
+              <Card>
+                <CardContent className="p-4">
+                  <Textarea
+                    placeholder="Enter your text or paste a link here..."
+                    className="min-h-[200px] resize-none"
+                    value={completion}
+                    readOnly
+                  />
+                </CardContent>
+                <CardFooter className="flex justify-between gap-2">
+                  {/* <form
                   action={async (formData) => {
                     setIsGeneratingGif(true);
                     const gifs = await getGifsBySearch(
@@ -183,7 +161,7 @@ export function Dashboard({
                     {isGeneratingGif ? "Finding Gifs..." : `Search gif`}
                   </Button>
                 </form> */}
-                {/* <Button
+                  {/* <Button
                   disabled={completion === "" || isGeneratingGif}
                   className="disabled:bg-slate-300"
                   onClick={async () => {
@@ -198,9 +176,9 @@ export function Dashboard({
                 >
                   {isGeneratingGif ? "Finding Gifs..." : "AI - Find a Gif"}
                 </Button> */}
-              </CardFooter>
-            </Card>
-            {/* <Card>
+                </CardFooter>
+              </Card>
+              {/* <Card>
               <CardContent className="p-4">
                 <div className="grid grid-cols-2 md:grid-cols-3 justify-center gap-3">
                   {gifs.length > 0
@@ -234,32 +212,33 @@ export function Dashboard({
                 </div>
               </CardContent>
             </Card> */}
+            </div>
           </div>
-
           {/* Right Column - Twitter Post Preview */}
-          <div className="md:col-span-4">
-            <Card>
-              <CardHeader className="pb-2">
-                <div className="flex items-center space-x-4">
-                  <Avatar>
-                    <AvatarImage src={user?.image} alt={user?.name} />
-                    <AvatarFallback>UN</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold">{user?.name}</p>
-                    <p className="text-sm text-muted-foreground">@username</p>
+          <div className="md:col-span-4 ">
+            <div className="mb-8">
+              <Card>
+                <CardHeader className="pb-2">
+                  <div className="flex items-center space-x-4">
+                    <Avatar>
+                      <AvatarImage src={user?.image} alt={user?.name} />
+                      <AvatarFallback>UN</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold">{user?.name}</p>
+                      <p className="text-sm text-muted-foreground">@username</p>
+                    </div>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent className="pb-2 ">
-                <Textarea
-                  placeholder="Your tweet content will appear here..."
-                  value={tweet}
-                  onChange={(e) => setTweet(e.target.value)}
-                  className="h-auto resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-2 text-sm"
-                />
+                </CardHeader>
+                <CardContent className="pb-2 ">
+                  <Textarea
+                    placeholder="Your tweet content will appear here..."
+                    value={tweet}
+                    onChange={(e) => setTweet(e.target.value)}
+                    className="h-auto resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-2 text-sm"
+                  />
 
-                {/* <div
+                  {/* <div
                   contentEditable="true"
                   className="mb-4 relative ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0"
                 >
@@ -275,7 +254,7 @@ export function Dashboard({
                     </Tooltip>
                   </TooltipProvider>
                 </div> */}
-                {/* <div
+                  {/* <div
                   className={cn(
                     `relative flex items-center justify-center mb-2 aspect-square border border-dashed border-muted-foreground/25 rounded-lg`,
                     selectedGif && "border-none"
@@ -295,20 +274,40 @@ export function Dashboard({
                     </span>
                   )}
                 </div> */}
+                </CardContent>
+              </Card>
+              <div className="mt-4 flex justify-end">
+                <Button
+                  onClick={() =>
+                    window.open(
+                      `https://twitter.com/intent/tweet?text=${tweet}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  Post on X (Twitter)
+                </Button>
+              </div>
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-semibold">
+                  Your Credits
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-sm text-muted-foreground">
+                  {currentUser.credits}/10 credits remaining
+                </div>
+                <Progress value={creditsPercentage} className="h-2" />
+                {/* <p className="text-sm text-muted-foreground">
+                  Get more credits to keep shitposting
+                </p> */}
+                {/* <Button className="w-full" variant="secondary">
+                    Keep Shit Posting
+                  </Button> */}
               </CardContent>
             </Card>
-            <div className="mt-4 flex justify-end">
-              <Button
-                onClick={() =>
-                  window.open(
-                    `https://twitter.com/intent/tweet?text=${tweet}`,
-                    "_blank"
-                  )
-                }
-              >
-                Post on X (Twitter)
-              </Button>
-            </div>
           </div>
         </div>
       </div>

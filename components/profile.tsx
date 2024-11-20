@@ -85,7 +85,7 @@ export function Profile({
             </Card> */}
 
             {/* Credits Section */}
-            <Card>
+            <Card className="w-[28rem]">
               <CardContent className="p-6">
                 <h2 className="font-semibold mb-4">Your Credits</h2>
                 <div className="space-y-4 mb-8">
@@ -94,10 +94,10 @@ export function Profile({
                   </div>
                   <Progress value={creditsPercentage} className="h-2" />
                   <div className="flex flex-col space-y-2">
-                    <p className="text-sm text-muted-foreground">
+                    {/* <p className="text-sm text-muted-foreground">
                       Get more credits to keep shitposting
-                    </p>
-                    <Button variant="secondary">Keep Shit Posting</Button>
+                    </p> */}
+                    {/* <Button variant="secondary">Keep Shit Posting</Button> */}
                   </div>
                 </div>
                 <div className="flex justify-end">

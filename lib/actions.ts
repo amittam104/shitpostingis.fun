@@ -4,6 +4,8 @@ import { auth, signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { anthropic } from "@ai-sdk/anthropic";
 import { generateText } from "ai";
+import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 
 // Sign in with Google server action
 export async function signInWithGoogle() {
@@ -57,4 +59,26 @@ export async function getGifSearchQueryByAi(query: string) {
   });
 
   return text;
+}
+
+export async function updateCredits() {
+  const supabase = await createClient();
+
+  const { data: creditsNo, error: getCreditsError } = await supabase
+    .from("user")
+    .select("credits");
+
+  if (getCreditsError) throw new Error("Could not fetch the credits data");
+
+  const [{ credits }] = creditsNo;
+
+  const { data, error } = await supabase
+    .from("user")
+    .update({ credits: credits - 1 })
+    .eq("credits", credits)
+    .select();
+
+  if (error) throw new Error("Something went wrong while updating the credits");
+
+  return data;
 }
