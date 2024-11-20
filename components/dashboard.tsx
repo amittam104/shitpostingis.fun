@@ -11,13 +11,13 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { getGifsBySearch, getGifSearchQueryByAi } from "@/lib/actions";
+// import { getGifsBySearch, getGifSearchQueryByAi } from "@/lib/actions";
 import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
-import Image from "next/image";
+// import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 
 // import {
 //   Tooltip,
@@ -49,27 +49,27 @@ export function Dashboard({
     api: "/api/completion",
   });
   const [tweet, setTweet] = useState("");
-  const [gifs, setGifs] = useState<
-    Array<{
-      media_formats: {
-        gif: {
-          url: string;
-        };
-      };
-      width: number;
-      height: number;
-    }>
-  >([]);
-  const [selectedGif, setSelectedGif] = useState<{
-    media_formats: {
-      gif: {
-        url: string;
-      };
-    };
-    width: number;
-    height: number;
-  } | null>(null);
-  const [isGeneratingGif, setIsGeneratingGif] = useState(false);
+  // const [gifs, setGifs] = useState<
+  //   Array<{
+  //     media_formats: {
+  //       gif: {
+  //         url: string;
+  //       };
+  //     };
+  //     width: number;
+  //     height: number;
+  //   }>
+  // >([]);
+  // const [selectedGif, setSelectedGif] = useState<{
+  //   media_formats: {
+  //     gif: {
+  //       url: string;
+  //     };
+  //   };
+  //   width: number;
+  //   height: number;
+  // } | null>(null);
+  // const [isGeneratingGif, setIsGeneratingGif] = useState(false);
   const [isGeneratingShitPost, setIsGeneratingShitPost] = useState(false);
 
   useEffect(() => {
@@ -142,9 +142,9 @@ export function Dashboard({
                   <p className="text-sm text-muted-foreground">
                     Get more credits to keep shitposting
                   </p>
-                  <Button className="w-full" variant="secondary">
+                  {/* <Button className="w-full" variant="secondary">
                     Keep Shit Posting
-                  </Button>
+                  </Button> */}
                 </CardContent>
               </Card>
             </div>
@@ -162,7 +162,7 @@ export function Dashboard({
                 />
               </CardContent>
               <CardFooter className="flex justify-between gap-2">
-                <form
+                {/* <form
                   action={async (formData) => {
                     setIsGeneratingGif(true);
                     const gifs = await getGifsBySearch(
@@ -182,8 +182,8 @@ export function Dashboard({
                   <Button disabled={isGeneratingGif} variant="outline">
                     {isGeneratingGif ? "Finding Gifs..." : `Search gif`}
                   </Button>
-                </form>
-                <Button
+                </form> */}
+                {/* <Button
                   disabled={completion === "" || isGeneratingGif}
                   className="disabled:bg-slate-300"
                   onClick={async () => {
@@ -197,10 +197,10 @@ export function Dashboard({
                   }}
                 >
                   {isGeneratingGif ? "Finding Gifs..." : "AI - Find a Gif"}
-                </Button>
+                </Button> */}
               </CardFooter>
             </Card>
-            <Card>
+            {/* <Card>
               <CardContent className="p-4">
                 <div className="grid grid-cols-2 md:grid-cols-3 justify-center gap-3">
                   {gifs.length > 0
@@ -233,7 +233,7 @@ export function Dashboard({
                       })}
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
 
           {/* Right Column - Twitter Post Preview */}
@@ -275,7 +275,7 @@ export function Dashboard({
                     </Tooltip>
                   </TooltipProvider>
                 </div> */}
-                <div
+                {/* <div
                   className={cn(
                     `relative flex items-center justify-center mb-2 aspect-square border border-dashed border-muted-foreground/25 rounded-lg`,
                     selectedGif && "border-none"
@@ -294,7 +294,7 @@ export function Dashboard({
                       No GIF selected
                     </span>
                   )}
-                </div>
+                </div> */}
               </CardContent>
             </Card>
             <div className="mt-4 flex justify-end">

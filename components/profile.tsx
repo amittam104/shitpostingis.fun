@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft } from "lucide-react";
 import { signOutFromApp } from "@/lib/actions";
@@ -59,9 +57,9 @@ export function Profile({
           </div>
 
           {/* Update Profile and Credits Section */}
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="flex justify-center ">
             {/* Update Profile Form */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Update Profile</CardTitle>
               </CardHeader>
@@ -84,7 +82,7 @@ export function Profile({
                   </div>
                 </form>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Credits Section */}
             <Card>
