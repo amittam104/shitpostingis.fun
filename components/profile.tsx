@@ -28,7 +28,7 @@ export function Profile({
   currentUser: currentUser;
 }) {
   const creditsPercentage = currentUser?.credits
-    ? (currentUser.credits / 10) * 100
+    ? (currentUser.credits / 20) * 100
     : 0;
 
   return (
@@ -90,7 +90,7 @@ export function Profile({
                 <h2 className="font-semibold mb-4">Your Credits</h2>
                 <div className="space-y-4 mb-8">
                   <div className="text-sm text-muted-foreground">
-                    {currentUser.credits}/10 credits remaining
+                    {currentUser.credits}/20 credits remaining
                   </div>
                   <Progress value={creditsPercentage} className="h-2" />
                   <div className="flex flex-col space-y-2">

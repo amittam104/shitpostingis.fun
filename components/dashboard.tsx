@@ -79,7 +79,7 @@ export function Dashboard({
   }, [completion]);
 
   const creditsPercentage = currentUser?.credits
-    ? (currentUser.credits / 10) * 100
+    ? (currentUser.credits / 20) * 100
     : 0;
 
   return (
@@ -297,7 +297,7 @@ export function Dashboard({
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-sm text-muted-foreground">
-                  {currentUser.credits}/10 credits remaining
+                  {currentUser.credits}/20 credits remaining
                 </div>
                 <Progress value={creditsPercentage} className="h-2" />
                 {/* <p className="text-sm text-muted-foreground">

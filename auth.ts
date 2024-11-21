@@ -27,7 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             {
               name: user?.name,
               email: user?.email,
-              credits: 10,
+              credits: 20,
             },
           ])
           .select();

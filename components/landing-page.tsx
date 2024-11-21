@@ -1,9 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 
-export function LandingPageComponent() {
+export function LandingPageComponent({ credits }: { credits: number }) {
+  const { toast } = useToast();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -12,7 +15,21 @@ export function LandingPageComponent() {
           <h1 className="text-2xl font-semibold">Shitpostingisfun</h1>
           <nav className="flex items-center space-x-4">
             <Link href="/dashboard">
-              <Button size="sm">Start Shitposting</Button>
+              <Button
+                onClick={() => {
+                  if (credits > 0) return;
+
+                  toast({
+                    variant: "destructive",
+                    title: "You have 0 credits left",
+                    description:
+                      "You have exhausted the credits limit of the app.",
+                  });
+                }}
+                size="sm"
+              >
+                Start Shitposting
+              </Button>
             </Link>
           </nav>
         </div>
@@ -28,7 +45,20 @@ export function LandingPageComponent() {
             Unleash your creativity with AI-powered shit posts generation
           </p>
           <Link href="/dashboard">
-            <Button size="sm">Start Shitposting</Button>
+            <Button
+              onClick={() => {
+                if (credits > 0) return;
+                toast({
+                  variant: "destructive",
+                  title: "You have 0 credits left",
+                  description:
+                    "You have exhausted the credits limit of the app.",
+                });
+              }}
+              size="sm"
+            >
+              Start Shitposting
+            </Button>
           </Link>
         </div>
       </section>

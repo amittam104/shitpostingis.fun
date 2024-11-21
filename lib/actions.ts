@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { anthropic } from "@ai-sdk/anthropic";
 import { generateText } from "ai";
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 
 // Sign in with Google server action
 export async function signInWithGoogle() {
