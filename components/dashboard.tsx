@@ -278,6 +278,7 @@ export function Dashboard({
               </Card>
               <div className="mt-4 flex justify-end">
                 <Button
+                  className="bg-lime-700 text-slate-50 rounded-full hover:bg-lime-700/90 transition-colors ease-in-out delay-100"
                   onClick={() =>
                     window.open(
                       `https://twitter.com/intent/tweet?text=${tweet}`,
