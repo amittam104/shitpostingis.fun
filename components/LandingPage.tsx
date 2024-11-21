@@ -1,14 +1,7 @@
 "use client";
 
 import React, { ReactElement } from "react";
-import {
-  ArrowRight,
-  Twitter,
-  Sparkles,
-  Send,
-  Repeat,
-  Menu,
-} from "lucide-react";
+import { ArrowRight, Twitter, Sparkles, Send, Repeat } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -48,13 +41,30 @@ export default function LandingPage({ credits }: { credits: number }) {
             </Link>
           </nav>
           <button className="md:hidden">
-            <Menu className="w-5 h-5" />
+            <Link href="/dashboard">
+              <Button
+                onClick={() => {
+                  if (credits > 0) return;
+
+                  toast({
+                    variant: "destructive",
+                    title: "You have 0 credits left",
+                    description:
+                      "You have exhausted the credits limit of the app.",
+                  });
+                }}
+                className="bg-lime-700 text-white text-xs font-semibold px-6 py-3 rounded-full hover:bg-lime-700 transition duration-300"
+              >
+                Start Shitposting
+                <ArrowRight className="w-3 h-3 inline-block ml-1" />
+              </Button>
+            </Link>
           </button>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="bg-gray-50 py-72 relative overflow-hidden">
+      <section className="bg-gray-50  py-32 md:py-52 lg:py-72 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -174,12 +184,18 @@ export default function LandingPage({ credits }: { credits: number }) {
               &copy; {thisYear} ShitpostingIsFun. All rights reserved.
             </div>
             <div className="flex space-x-4">
-              <a href="#" className="text-xs hover:text-lime-400">
+              <Link
+                href="/privacy-policy"
+                className="text-xs hover:text-lime-400"
+              >
                 Privacy Policy
-              </a>
-              <a href="#" className="text-xs hover:text-lime-400">
+              </Link>
+              <Link
+                href="/termsofservice"
+                className="text-xs hover:text-lime-400"
+              >
                 Terms of Service
-              </a>
+              </Link>
               {/* <a href="#" className="text-xs hover:text-lime-400">
                 Contact Us
               </a> */}
