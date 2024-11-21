@@ -40,7 +40,7 @@ export default function LandingPage({ credits }: { credits: number }) {
               </Button>
             </Link>
           </nav>
-          <button className="md:hidden">
+          <div className="md:hidden">
             <Link href="/dashboard">
               <Button
                 onClick={() => {
@@ -59,7 +59,7 @@ export default function LandingPage({ credits }: { credits: number }) {
                 <ArrowRight className="w-3 h-3 inline-block ml-1" />
               </Button>
             </Link>
-          </button>
+          </div>
         </div>
       </header>
 

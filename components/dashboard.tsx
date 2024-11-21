@@ -13,11 +13,13 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 // import { getGifsBySearch, getGifSearchQueryByAi } from "@/lib/actions";
 import { useCompletion } from "ai/react";
-import { Sparkles } from "lucide-react";
+import { Info, Sparkles } from "lucide-react";
 // import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { updateCredits } from "@/lib/actions";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 // import { cn } from "@/lib/utils";
 
 // import {
@@ -133,7 +135,7 @@ export function Dashboard({
               <Card>
                 <CardContent className="p-4">
                   <Textarea
-                    placeholder="Enter your text or paste a link here..."
+                    placeholder="Your shit post built by AI will appear here..."
                     className="min-h-[200px] resize-none"
                     value={completion}
                     readOnly
@@ -226,26 +228,23 @@ export function Dashboard({
                     </Avatar>
                     <div>
                       <p className="font-semibold">{user?.name}</p>
-                      <p className="text-sm text-muted-foreground">@username</p>
+                      <p className="text-sm text-muted-foreground">
+                        @{user?.name?.toLowerCase().split(" ").join("")}
+                      </p>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="pb-2 ">
+                <CardContent className="pb-2 relative">
                   <Textarea
                     placeholder="Your tweet content will appear here..."
                     value={tweet}
                     onChange={(e) => setTweet(e.target.value)}
-                    className="h-auto resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-2 text-sm"
+                    className="h-auto  resize-none border-none bg-none ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0 p-0 mt-4 mb-2 text-sm"
                   />
 
-                  {/* <div
-                  contentEditable="true"
-                  className="mb-4 relative ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0"
-                >
-                  {tweet}
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger className="absolute -top-3 -right-3">
+                      <TooltipTrigger className="absolute -top-3 right-3">
                         <Info className="size-4 text-neutral-400 cursor-pointer" />
                       </TooltipTrigger>
                       <TooltipContent className="text-sm top-3 right-3 text-neutral-400">
@@ -253,6 +252,13 @@ export function Dashboard({
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
+
+                  {/* <div
+                  contentEditable="true"
+                  className="mb-4 relative ring-offset-none focus-visible:ring-offset-0 outline-none focus-visible:ring-0"
+                >
+                  {tweet}
+                 
                 </div> */}
                   {/* <div
                   className={cn(
